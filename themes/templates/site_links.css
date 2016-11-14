@@ -1,0 +1,30 @@
+#site-links {
+	list-style: none;
+	 min-height:20px;
+	 height: auto !important;
+	 height: 20px;
+}
+
+#site-links li {
+	display: block;
+	margin: 0;
+	padding: 5px;
+}
+#site-links li.parent .link_name {
+	font-weight: bold;
+}
+#site-links li:nth-child(odd) {
+	background: #f3f4f4;
+}
+#site-links li:nth-child(even) {
+	background: #fdf2e8;
+}
+#site-links li:hover {
+	background: silver;
+}
+
+#site-links li img.handle {
+	cursor: ns-resize;
+}
+.state-highlight { background:#FFC; height:20px;}
+.floatfix { overflow:hidden; }

@@ -1,0 +1,37 @@
+/*
+Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
+For licensing, see LICENSE.html or http://ckeditor.com/license
+*/
+
+body
+{
+	#background: url(../../../themes/default/images/bg.jpg) center 37% repeat;
+	border: 0;
+	font: 13px Arial, Helvetica, sans-serif;
+	color: #000;
+	line-height: 21px;
+}
+
+ol,ul,dl
+{
+	margin-left: 30px;
+	margin-bottom: 10px;
+}
+
+table, table td {
+	padding: 0;
+	border: none;
+	border-collapse: collapse;
+	vertical-align: top;
+}
+
+table {
+	border: 2px solid white;
+}
+table tr {
+
+}
+table tr td {
+	border: 1px solid white;
+	padding: 5px;
+}

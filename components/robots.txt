@@ -1,0 +1,10 @@
+<?php
+header("Content-type: text/plain");
+?>
+User-agent: *
+<?php if (ROBOTS=="Disallow") { ?>
+Disallow: /
+<?php } ?>
+Disallow: /administration/
+Host: <?php echo FUSION_HOST ."\n"; ?>
+Sitemap: http://<?php echo FUSION_HOST; ?>/sitemap.xml

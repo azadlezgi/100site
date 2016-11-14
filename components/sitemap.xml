@@ -1,0 +1,83 @@
+<?php
+if (!defined("IN_FUSION")) { die("Access Denied"); }
+
+$changefreq[1] = "always";
+$changefreq[2] = "weekly";
+$changefreq[3] = "monthly";
+
+$priority[0] = "0.80";
+$priority[1] = "0.80";
+$priority[4] = "0.64";
+$priority[2] = "0.50";
+$priority[3] = "0.50";
+$priority[23] = "0.25";
+
+$tables[0] = "";
+$tables[1] = DB_CUSTOM_PAGES;
+$tables[2] = DB_ARTICLES;
+$tables[3] = DB_ARTICLE_CATS;
+$tables[4] = DB_NEWS;
+$tables[5] = DB_NEWS_CATS;
+
+$rows[0] = "";
+$rows[1] = "page";
+$rows[2] = "article";
+$rows[3] = "article_cat";
+$rows[4] = "news";
+$rows[5] = "news_cat";
+$rows[23] = "search";
+
+function statuscomp($table, $row, $id) {
+  if (($table) && ($row)) {
+    $result_sc = dbquery("SELECT 
+                    ". $row ."_status
+            FROM ". $table ."
+            WHERE ". $row ."_id='". $id ."'
+            AND ". $row ."_date<'". FUSION_TODAY ."'");
+    if (dbrows($result_sc)) {
+      $data_sc = dbarray($result_sc);
+      return $data_sc[$row .'_status'];
+    } else {
+      return false;
+    }
+  } else {
+    return true;
+  }
+} // function statuscomp
+
+header("Content-type: text/xml");
+echo '<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">'."\n";
+echo '<url>
+  <loc>http://'. FUSION_HOST .'/</loc>
+  <lastmod>'. date("Y-m-d") .'</lastmod>
+  <priority>1.00</priority>
+</url>'."\n";
+
+  $result = dbquery("SELECT 
+                  seourl_id,
+                  seourl_url,
+                  seourl_component,
+                  seourl_filedid,
+                  seourl_lastmod
+          FROM ". DB_SEOURL ."
+          WHERE seourl_lastmod!='0000-00-00'
+          ORDER BY seourl_component ASC");
+  if (dbrows($result)) {
+    while ($data = dbarray($result)) { $j++;
+      if ($settings['opening_page']!=$data['seourl_url']) {
+        $statuscomp = statuscomp($tables[$data['seourl_component']], $rows[$data['seourl_component']], $data['seourl_filedid']);
+        if ($statuscomp==1) {
+
+echo '<url>
+  <loc>http://'. FUSION_HOST .'/'. $data['seourl_url'] .'</loc>
+  <lastmod>'. $data['seourl_lastmod'] .'</lastmod>
+  <priority>'. $priority[$data['seourl_component']] .'</priority>
+</url>'."\n";
+
+        } // yesli status 1
+      } // yesli home 
+    } // db while
+  } // db query
+
+echo '</urlset>';

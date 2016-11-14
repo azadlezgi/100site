@@ -1,0 +1,75 @@
+RewriteEngine On
+
+RewriteCond %{THE_REQUEST} ^(.*)index\.php\ HTTP/ 
+RewriteRule ^(.*)index\.php$ /$1 [R=301,L]
+
+
+RewriteCond %{HTTP_HOST} ^www.remontstiralok.ml(.*)
+RewriteRule ^(.*)$ http://remontstiralok.ml/$1 [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^www.pro-televizor.ru(.*)
+RewriteRule ^(.*)$ http://pro-televizor.ru/$1 [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^www.remont-komputerov.spb.ru(.*)
+RewriteRule ^(.*)$ http://remont-komputerov.spb.ru/$1 [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^www.kotly-otopitelnye.ru(.*)
+RewriteRule ^(.*)$ http://kotly-otopitelnye.ru/$1 [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^www.marketnet.su(.*)
+RewriteRule ^(.*)$ http://marketnet.su/$1 [R=301,L]
+
+
+#убираем слэш в конце 
+RewriteCond %{REQUEST_FILENAME} !-d 
+RewriteCond %{REQUEST_URI} ^(.+)/$ 
+RewriteRule ^(.+)/$ /$1 [R=301,L] 
+
+
+RewriteRule ^(.*)/user_([0-9]+)/page_([0-9]+)$ ?row_url=$1&page=$2&user=$3 [QSA,L]
+RewriteRule ^(.*)/page_([0-9]+)$ ?row_url=$1&page=$2 [QSA,L]
+RewriteRule ^(.*)/user_([0-9]+)$ ?row_url=$1&user=$2 [QSA,L]
+
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+
+
+# Включаем кэш в браузерах посетителей
+<ifModule mod_headers.c>
+    # Все html и htm файлы будут храниться в кэше браузера один день
+    <FilesMatch "\.(html|htm)$">
+        Header set Cache-Control "max-age=43200"
+    </FilesMatch>
+    # Все css, javascript и текстовые файлы будут храниться в кэше браузера одну неделю
+    <FilesMatch "\.(js|css|txt)$">
+        Header set Cache-Control "max-age=604800"
+    </FilesMatch>
+    # Все флэш файлы и изображения будут храниться в кэше браузера один месяц
+    <FilesMatch "\.(flv|swf|ico|gif|jpg|jpeg|png)$">
+        Header set Cache-Control "max-age=2592000"
+    </FilesMatch>
+    # Отключаем кеширование php и других служебных файлов
+    <FilesMatch "\.(pl|php|cgi|spl|scgi|fcgi)$">
+        Header unset Cache-Control
+    </FilesMatch>
+</IfModule>
+
+
+#активация и настройка модуля mod_deflate
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE application/javascript
+  AddOutputFilterByType DEFLATE text/javascript
+  AddOutputFilterByType DEFLATE text/css
+  <IfModule mod_setenvif.c>
+    BrowserMatch ^Mozilla/4 gzip-only-text/html
+    BrowserMatch ^Mozilla/4\.0[678] no-gzip
+    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+  </IfModule>
+</IfModule>
