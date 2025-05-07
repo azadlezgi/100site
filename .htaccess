@@ -4,21 +4,6 @@ RewriteCond %{THE_REQUEST} ^(.*)index\.php\ HTTP/
 RewriteRule ^(.*)index\.php$ /$1 [R=301,L]
 
 
-RewriteCond %{HTTP_HOST} ^www.remontstiralok.ml(.*)
-RewriteRule ^(.*)$ http://remontstiralok.ml/$1 [R=301,L]
-
-RewriteCond %{HTTP_HOST} ^www.pro-televizor.ru(.*)
-RewriteRule ^(.*)$ http://pro-televizor.ru/$1 [R=301,L]
-
-RewriteCond %{HTTP_HOST} ^www.remont-komputerov.spb.ru(.*)
-RewriteRule ^(.*)$ http://remont-komputerov.spb.ru/$1 [R=301,L]
-
-RewriteCond %{HTTP_HOST} ^www.kotly-otopitelnye.ru(.*)
-RewriteRule ^(.*)$ http://kotly-otopitelnye.ru/$1 [R=301,L]
-
-RewriteCond %{HTTP_HOST} ^www.marketnet.su(.*)
-RewriteRule ^(.*)$ http://marketnet.su/$1 [R=301,L]
-
 
 #убираем слэш в конце 
 RewriteCond %{REQUEST_FILENAME} !-d 
