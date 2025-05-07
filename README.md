@@ -24,7 +24,6 @@ The structure mostly follows the standard PHP-Fusion layout with added routing l
 ### Key Files:
 
 - `maincore.php` – PHP-Fusion's main core file.
-- `config/config_router.php` – Holds domain-specific DB configurations.
 - `config.php` – Uses router output to establish DB connection.
 - `index.php` – Entry point of the CMS.
 - `administration/` – Standard PHP-Fusion admin panel.
@@ -42,22 +41,18 @@ Upload all files to your web hosting or VPS server.
 Edit the `config/config_router.php` file like this:
 
 ```php
-return [
-    'site1.com' => [
-        'db_host' => 'localhost',
-        'db_name' => 'site1_db',
-        'db_user' => 'root',
-        'db_pass' => '',
-        'db_prefix' => 'fusion_',
-    ],
-    'site2.com' => [
-        'db_host' => 'localhost',
-        'db_name' => 'site2_db',
-        'db_user' => 'root',
-        'db_pass' => '',
-        'db_prefix' => 'fusion_',
-    ],
-];
+if ($_SERVER['HTTP_HOST']=="100site.loc") {
+	// database settings
+	$db_host = "localhost";
+	$db_user = "root";
+	$db_pass = "";
+	$db_name = "100site";
+	$db_prefix = "c2y_";
+	define("DB_PREFIX", "c2y_");
+	define("COOKIE_PREFIX", "mz4_");
+	define("SITE", "site1");
+	define("ROBOTS", "Disallow");
+}
 
 
 3. Create databases
@@ -84,7 +79,7 @@ The classic PHP-Fusion admin panel is fully functional per site. Each website co
 ⸻
 
 🛡 Security Notes
-	•	Add config/config_router.php to .gitignore to avoid exposing DB credentials.
+	•	Add config.php to .gitignore to avoid exposing DB credentials.
 	•	Ensure your server supports PHP 7.x or higher.
 	•	It is recommended to migrate to PDO for secure DB connections in the future.
 
